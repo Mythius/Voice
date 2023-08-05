@@ -27,6 +27,7 @@
 		}
 
 		socket.on('list',async lists=>{
+			console.log(lists);
 			// for(let list of lists){
 			// 	await play_sounds(list);
 			// }
@@ -48,7 +49,7 @@
 		async function playAudios(audios){
 			let all = [];
 			for(let i=0;i<audios.length;i++){
-				all.push(playSoundAfter(audios[i],i*150));
+				all.push(playSoundAfter(audios[i],i*160));
 			}
 			await Promise.all(all);
 		}
