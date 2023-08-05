@@ -80,7 +80,7 @@ function getPronunciationWEB(word){
 			}
 		});
 		proc.on('close',code=>{
-			res('');
+			res('#');
 			return;
 		});
 	})
