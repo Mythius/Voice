@@ -1,1 +1,75 @@
-<link rel="icon" type="image/x-icon" href="icon.png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="icon" type="image/x-icon" href="icon.png">
+	<script src=/socket.io/socket.io.js></script>
+	<script src=helpers.js></script>
+</html>
+</head>
+<body>
+	<input type="text"><button>Go</button>
+	<script>
+
+		var socket = io();
+
+		obj('button').on('click',e=>{
+			let words = obj('input').value.split(' ');
+			socket.emit('getlist',words)
+		});
+
+		async function wait(secs){
+			return new Promise((res,rej)=>{
+				setTimeout(res,secs/1000);
+			})
+		}
+
+		socket.on('list',async lists=>{
+			// for(let list of lists){
+			// 	await play_sounds(list);
+			// }
+			await play_sounds(lists.flat());
+		});
+
+		async function play_sounds(list){
+			let audios = [];
+			for(let sound of list){
+				let audio = new Audio();
+				audio.src = sound;
+				audio.volume = 0.5;
+				audio.loop = false;
+				audios.push(audio);
+			}
+			await playAudios(audios);
+		}
+
+		async function playAudios(audios){
+			let all = [];
+			for(let i=0;i<audios.length;i++){
+				all.push(playSoundAfter(audios[i],i*150));
+			}
+			await Promise.all(all);
+		}
+
+		function playSoundAfter(audio,mils=50){
+			return new Promise((res,rej)=>{
+				setTimeout(()=>{
+					audio.play();
+					audio.addEventListener('ended',e=>{
+						res();
+					});
+				},mils)
+			});
+		}
+
+		/*
+				audio.volume = 0.5;
+				audio.loop = false;
+				audio.src = playlist[0];
+				audio.play();
+
+				*/
+	</script>
+</body>
