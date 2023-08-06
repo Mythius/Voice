@@ -112,6 +112,8 @@ function convert_to_paths(pron){
 		}
 	}
 	result.push('sounds/_.wav');
+	result.push('sounds/_.wav');
+	result.push('sounds/_.wav');
 	return result;
 }
 
